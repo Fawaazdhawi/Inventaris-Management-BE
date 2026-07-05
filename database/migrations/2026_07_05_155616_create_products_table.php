@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('kode_barang')->unique();
             $table->string('nama_barang');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
             $table->integer('stok')->default(0);
             $table->string('lokasi_penyimpanan');
-            $table->string('kondisi_barang');
+            $table->string('kondisi_barang')->default('Baik');
             $table->string('image')->nullable();
             $table->timestamps();
         });

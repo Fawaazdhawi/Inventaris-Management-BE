@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Borrowing extends Model
 {
     protected $fillable = [
-        'user_id', 'tanggal_pinjam', 'tanggal_kembali', 'status'
+        'user_id',
+        'tanggal_pinjam',
+        'tanggal_kembali',
+        'status'
     ];
 
     public function user()

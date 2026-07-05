@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: inventaris_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: inventaris_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: inventaris_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=inventaris_db
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=admin
+      - PHP_CLI_SERVER_WORKERS=4
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ../../Inventaris-FE/Inventaris-Management-FE
+      dockerfile: Dockerfile
+    container_name: inventaris_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../../Inventaris-FE/Inventaris-Management-FE:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

@@ -17,7 +17,7 @@ class BorrowingController extends Controller
         // If staff/manager, they can see all. If we want to restrict, we can here.
         // Let's assume all users can see history, or at least their own history.
         // The spec says Manager can "Melihat laporan", Staff "Kelola data inventaris".
-        if ($request->user()->role->name !== 'Admin' && $request->user()->role->name !== 'Manager' && $request->user()->role->name !== 'Staff') {
+        if ($request->user()->role !== 'Admin' && $request->user()->role !== 'Manager' && $request->user()->role !== 'Staff') {
              // For regular users (if any), only show their own. But we only have Admin, Staff, Manager roles.
         }
 
