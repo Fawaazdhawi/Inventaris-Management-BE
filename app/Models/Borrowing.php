@@ -8,9 +8,10 @@ class Borrowing extends Model
 {
     protected $fillable = [
         'user_id',
+        'nama_peminjam',
         'tanggal_pinjam',
         'tanggal_kembali',
-        'status'
+        'status',
     ];
 
     public function user()

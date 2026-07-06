@@ -30,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/borrowings/{borrowing}/return', [BorrowingController::class, 'return']);
     });
     
-    // Only Admin can manage users
-    Route::apiResource('users', UserController::class)->middleware('role:Admin');
+    Route::get('/users', [UserController::class, 'index'])->middleware('role:Admin,Staff');
+    // Only Admin can manage users (create, update, delete, show)
+    Route::apiResource('users', UserController::class)->except(['index'])->middleware('role:Admin');
 });

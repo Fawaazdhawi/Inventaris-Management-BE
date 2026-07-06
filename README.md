@@ -1,58 +1,53 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Manajemen Inventaris
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem Manajemen Inventaris ini merupakan solusi pencatatan inventaris PT Telkomsel berbasis Web untuk mengatasi masalah kehilangan data aset, duplikasi, dan sulitnya memantau stok barang. 
 
-## About Laravel
+Sistem ini terbagi menjadi dua bagian utama:
+1. **Backend (REST API):** Dibangun menggunakan Laravel 11.
+2. **Frontend (UI):** Dibangun menggunakan React + Vite & Tailwind CSS.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 1. Cara Instalasi (Sesuai Syarat Rubrik)
+Walaupun aplikasi ini telah di-deploy secara online, berikut adalah langkah instalasi jika ingin dijalankan secara lokal:
+1. *Clone* repository ini ke komputer lokal.
+2. Karena proyek ini sudah dibekali arsitektur **Docker**, Anda cukup membuka terminal di folder root backend ini lalu jalankan:
+   ```bash
+   docker-compose up -d --build
+   ```
+3. Masuk ke dalam *container* backend untuk menginstal dependensi:
+   ```bash
+   docker exec -it inventaris_backend bash
+   composer install
+   php artisan migrate:fresh --seed
+   php artisan storage:link
+   exit
+   ```
+4. Buka folder frontend dan jalankan `npm install` untuk mengunduh semua pustaka antarmuka.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 2. Cara Menjalankan Project
+* **Versi Online (Live Demo):** 
+  Aplikasi ini sudah di-deploy dan dapat diakses publik melalui tautan yang dilampirkan pada hasil pengumpulan tugas.
+* **Versi Lokal:** 
+  - Backend berjalan secara otomatis melalui Docker di alamat `http://localhost:8000`.
+  - Untuk Frontend, jalankan `npm run dev` pada terminal folder frontend, lalu akses `http://localhost:5173` di web browser Anda.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 3. Akun Login Testing
+Silakan gunakan salah satu akun di bawah ini untuk menguji fitur aplikasi:
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+| Role Akses | Email Login | Password | Keterangan Akses |
+|------------|-------------|----------|------------------|
+| **Admin** | `admin@test.com` | `admin123` | Memiliki akses penuh, termasuk mengelola Data Pengguna (User Management). |
+| **Manager** | `manager@test.com` | `manager123` | Hak akses baca-saja; hanya bisa melihat Dashboard, Statistik, dan Laporan. |
+| **Staff** | `staff@test.com` | `staff123` | Bisa menambah/mengubah barang dan melakukan proses peminjaman. |
 
-## Agentic Development
+---
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
-```
-
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Fitur dan Spesifikasi Teknis
+- **Database:** PostgreSQL (berisi minimal tabel *users, roles, products, categories, borrowings*).
+- **Notifikasi Stok Menipis:** Menggunakan WebSockets (Laravel Reverb / Echo) untuk *real-time update* jika stok di bawah 5 item.
+- **Export Laporan:** Dapat diekspor menjadi format PDF dari halaman Dashboard.

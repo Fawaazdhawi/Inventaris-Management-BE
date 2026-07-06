@@ -28,6 +28,7 @@ class BorrowingController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'nama_peminjam' => 'required|string|max:255',
             'tanggal_pinjam' => 'required|date',
             'product_ids' => 'required|array|min:1',
             'product_ids.*' => 'exists:products,id'
@@ -36,7 +37,8 @@ class BorrowingController extends Controller
         DB::beginTransaction();
         try {
             $borrowing = Borrowing::create([
-                'user_id' => $request->user()->id,
+                'user_id' => $request->user()->id, // The staff who recorded it
+                'nama_peminjam' => $validated['nama_peminjam'], // The actual borrower
                 'tanggal_pinjam' => $validated['tanggal_pinjam'],
                 'status' => 'dipinjam'
             ]);
