@@ -14,11 +14,7 @@ class BorrowingController extends Controller
     {
         $query = Borrowing::with(['user', 'details.product']);
         
-        // If staff/manager, they can see all. If we want to restrict, we can here.
-        // Let's assume all users can see history, or at least their own history.
-        // The spec says Manager can "Melihat laporan", Staff "Kelola data inventaris".
         if ($request->user()->role !== 'Admin' && $request->user()->role !== 'Manager' && $request->user()->role !== 'Staff') {
-             // For regular users (if any), only show their own. But we only have Admin, Staff, Manager roles.
         }
 
         $borrowings = $query->latest()->paginate(10);
@@ -37,8 +33,8 @@ class BorrowingController extends Controller
         DB::beginTransaction();
         try {
             $borrowing = Borrowing::create([
-                'user_id' => $request->user()->id, // The staff who recorded it
-                'nama_peminjam' => $validated['nama_peminjam'], // The actual borrower
+                'user_id' => $request->user()->id,
+                'nama_peminjam' => $validated['nama_peminjam'],
                 'tanggal_pinjam' => $validated['tanggal_pinjam'],
                 'status' => 'dipinjam'
             ]);

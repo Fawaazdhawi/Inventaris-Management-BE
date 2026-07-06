@@ -22,11 +22,14 @@ class DashboardController extends Controller
         ->groupBy('month')
         ->get();
 
+        $low_stock_products = Product::where('stok', '<', 10)->where('stok', '>', 0)->get(['id', 'nama_barang', 'stok']);
+
         return response()->json([
             'total_barang' => $total_barang,
             'barang_dipinjam' => $barang_dipinjam,
             'barang_tersedia' => $barang_tersedia,
-            'grafik_peminjaman_bulanan' => $grafik
+            'grafik_peminjaman_bulanan' => $grafik,
+            'low_stock_products' => $low_stock_products
         ]);
     }
 }

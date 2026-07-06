@@ -24,9 +24,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:Admin,Staff')->group(function () {
         Route::apiResource('products', ProductController::class);
         Route::apiResource('categories', CategoryController::class);
-        
+    });
+
+    // Admin, Manager, and Staff can view and add borrowings
+    Route::middleware('role:Admin,Manager,Staff')->group(function () {
         Route::get('/borrowings', [BorrowingController::class, 'index']);
         Route::post('/borrowings', [BorrowingController::class, 'store']);
+    });
+
+    // Only Admin and Manager can return borrowings
+    Route::middleware('role:Admin,Manager')->group(function () {
         Route::post('/borrowings/{borrowing}/return', [BorrowingController::class, 'return']);
     });
     

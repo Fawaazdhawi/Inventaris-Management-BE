@@ -80,7 +80,6 @@ class AuthController extends Controller
             ]
         );
 
-        // In a real app we'd email this. Here we'll just return it so FE can use it.
         return response()->json([
             'message' => 'Password reset token generated.',
             'token' => $token
