@@ -15,13 +15,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Roles
+        $roleAdmin = \App\Models\Role::firstOrCreate(['name' => 'Admin']);
+        $roleManager = \App\Models\Role::firstOrCreate(['name' => 'Manager']);
+        $roleStaff = \App\Models\Role::firstOrCreate(['name' => 'Staff']);
+
         // Admin
         User::firstOrCreate(
             ['email' => 'admin@test.com'],
             [
                 'name' => 'Admin Utama',
                 'password' => bcrypt('admin123'),
-                'role' => 'Admin'
+                'role_id' => $roleAdmin->id
             ]
         );
 
@@ -31,7 +36,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Manager Operasional',
                 'password' => bcrypt('manager123'),
-                'role' => 'Manager'
+                'role_id' => $roleManager->id
             ]
         );
 
@@ -41,7 +46,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Staff Gudang',
                 'password' => bcrypt('staff123'),
-                'role' => 'Staff'
+                'role_id' => $roleStaff->id
             ]
         );
 

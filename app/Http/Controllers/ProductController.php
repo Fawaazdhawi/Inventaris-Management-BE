@@ -8,9 +8,17 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Product::with('category')->get();
+        $query = Product::with('category');
+        
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('nama_barang', 'like', "%{$search}%")
+                  ->orWhere('kode_barang', 'like', "%{$search}%");
+        }
+
+        return $query->paginate(10);
     }
 
     public function store(Request $request)

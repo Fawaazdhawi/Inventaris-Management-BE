@@ -49,6 +49,10 @@ class BorrowingController extends Controller
                 
                 $product->decrement('stok');
 
+                if ($product->stok < 5) {
+                    event(new \App\Events\LowStockNotification($product));
+                }
+
                 BorrowingDetail::create([
                     'borrowing_id' => $borrowing->id,
                     'product_id' => $product->id

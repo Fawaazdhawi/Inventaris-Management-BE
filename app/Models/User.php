@@ -22,9 +22,21 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
+        'role_id',
         'status',
     ];
+
+    protected $appends = ['role'];
+
+    public function roleModel()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function getRoleAttribute()
+    {
+        return $this->roleModel ? $this->roleModel->name : null;
+    }
 
     /**
      * Get the attributes that should be cast.

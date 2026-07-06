@@ -19,9 +19,13 @@ class UserController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
-            'role' => 'required|string',
+            'role' => 'required|string|in:Admin,Manager,Staff',
             'status' => 'required|string'
         ]);
+
+        $role = \App\Models\Role::where('name', $validated['role'])->first();
+        $validated['role_id'] = $role->id;
+        unset($validated['role']);
 
         $validated['password'] = Hash::make($validated['password']);
 
@@ -34,9 +38,13 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'role' => 'required|string',
+            'role' => 'required|string|in:Admin,Manager,Staff',
             'status' => 'required|string'
         ]);
+
+        $role = \App\Models\Role::where('name', $validated['role'])->first();
+        $validated['role_id'] = $role->id;
+        unset($validated['role']);
 
         if ($request->filled('password')) {
             $validated['password'] = Hash::make($request->password);
