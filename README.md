@@ -6,8 +6,6 @@ Sistem ini terbagi menjadi dua bagian utama:
 1. **Backend (REST API):** Dibangun menggunakan Laravel 11.
 2. **Frontend (UI):** Dibangun menggunakan React + Vite & Tailwind CSS.
 
----
-
 ## 1. Cara Instalasi (Sesuai Syarat Rubrik)
 Walaupun aplikasi ini telah di-deploy secara online, berikut adalah langkah instalasi jika ingin dijalankan secara lokal:
 1. *Clone* repository ini ke komputer lokal.
@@ -39,8 +37,7 @@ Walaupun aplikasi ini telah di-deploy secara online, berikut adalah langkah inst
 ## 3. Akun Login Testing
 Silakan gunakan salah satu akun di bawah ini untuk menguji fitur aplikasi:
 
-| Role Akses | Email Login | Password | Keterangan Akses |
-|------------|-------------|----------|------------------|
+|
 | **Admin** | `admin@test.com` | `admin123` | Memiliki akses penuh, termasuk mengelola Data Pengguna (User Management). |
 | **Manager** | `manager@test.com` | `manager123` | Hak akses baca-saja; hanya bisa melihat Dashboard, Statistik, dan Laporan. |
 | **Staff** | `staff@test.com` | `staff123` | Bisa menambah/mengubah barang dan melakukan proses peminjaman. |
@@ -51,3 +48,6 @@ Silakan gunakan salah satu akun di bawah ini untuk menguji fitur aplikasi:
 - **Database:** PostgreSQL (berisi minimal tabel *users, roles, products, categories, borrowings*).
 - **Notifikasi Stok Menipis:** Menggunakan WebSockets (Laravel Reverb / Echo) untuk *real-time update* jika stok di bawah 5 item.
 - **Export Laporan:** Dapat diekspor menjadi format PDF dari halaman Dashboard.
+
+## Note: 
+*saat membuka tab master barang, peminjaman, dan pengguna mohon di tunggu sebentar karena sedang load data ke FE*
