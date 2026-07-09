@@ -18,7 +18,8 @@ class ProductController extends Controller
                   ->orWhere('kode_barang', 'like', "%{$search}%");
         }
 
-        return $query->paginate(5);
+        $limit = $request->query('limit', 4);
+        return $query->paginate($limit);
     }
 
     public function store(Request $request)
